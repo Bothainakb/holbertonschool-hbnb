@@ -1,0 +1,62 @@
+classDiagram
+direction TB
+
+class BaseModel {
+    +UUID id
+    +DateTime created_at
+    +DateTime updated_at
+    +save()
+    +update()
+    +delete()
+}
+
+class User {
+    +String first_name
+    +String last_name
+    +String email
+    +String password
+    +Boolean is_admin
+    +register()
+    +update_profile()
+    +delete()
+}
+
+class Place {
+    +String title
+    +String description
+    +Float price
+    +Float latitude
+    +Float longitude
+    +User owner
+    +create()
+    +update()
+    +delete()
+}
+
+class Review {
+    +Integer rating
+    +String comment
+    +User user
+    +Place place
+    +create()
+    +update()
+    +delete()
+}
+
+class Amenity {
+    +String name
+    +String description
+    +create()
+    +update()
+    +delete()
+}
+
+BaseModel <|-- User
+BaseModel <|-- Place
+BaseModel <|-- Review
+BaseModel <|-- Amenity
+
+User "1" --> "*" Place : owns
+User "1" --> "*" Review : writes
+Place "1" --> "*" Review : has
+Place "*" -- "*" Amenity : has
