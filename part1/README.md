@@ -12,21 +12,28 @@ The documentation includes:
 
 The design follows a three-layer architecture:
 
-* Presentation Layer
+* Presentation Layer 
+Manages public REST endpoints, parses user requests, and returns serialized HTTP status payloads.
 * Business Logic Layer
+Coordinates domain structures and runs state verification rules.
 * Persistence Layer
+Abstracts raw storage access using transactional databases.
 
 The application models the following entities:
 
-* User
+* User 
+racks user credentials, email validation constraints, and host/guest authorization states.
 * Place
+Defines the accommodations listed by hosts; enforces positive coordinate and pricing boundaries.
 * Review
+Handles textual and numeric feedback ratings submitted exclusively by verified past guests.
 * Amenity
+Standardizes globally shared property attributes (e.g., Wi-Fi, pool access).
 
 ## Team Members
 
 * Albedah Bothaina
-* Dana Dana
+* Dana AlHarbi
 * Sarah Alburaidi
 
 ## Repository Structure
