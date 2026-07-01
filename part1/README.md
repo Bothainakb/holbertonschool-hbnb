@@ -4,6 +4,12 @@
 
 This project is the first phase of the HBnB Evolution application. The objective is to design the application's architecture and business logic using UML diagrams before implementation.
 
+Project Overview:
+ HBnB Evolution is a multi-tier accommodation marketplace application managing users, places, reviews, and amenities.
+
+Purpose:
+ This document establishes the architectural layout and object relationships prior to code implementation to ensure systemic consistency.
+
 The documentation includes:
 
 * High-Level Package Diagram
@@ -12,28 +18,29 @@ The documentation includes:
 
 The design follows a three-layer architecture:
 
-* Presentation Layer 
+* Presentation Layer
 Manages public REST endpoints, parses user requests, and returns serialized HTTP status payloads.
 * Business Logic Layer
 Coordinates domain structures and runs state verification rules.
 * Persistence Layer
 Abstracts raw storage access using transactional databases.
 
+
 The application models the following entities:
 
 * User 
-racks user credentials, email validation constraints, and host/guest authorization states.
+Tracks user credentials, email validation constraints, and host/guest authorization states.
 * Place
-Defines the accommodations listed by hosts; enforces positive coordinate and pricing boundaries.
+Defines the accommodations listed by hosts; enforces positive coordinate and pricing boundaries.  
 * Review
 Handles textual and numeric feedback ratings submitted exclusively by verified past guests.
 * Amenity
-Standardizes globally shared property attributes (e.g., Wi-Fi, pool access).
+Standardizes globally shared property attributes.
 
 ## Team Members
 
 * Albedah Bothaina
-* Dana AlHarbi
+* Dana Alharbi
 * Sarah Alburaidi
 
 ## Repository Structure
