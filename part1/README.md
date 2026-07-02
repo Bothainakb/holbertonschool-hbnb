@@ -2,13 +2,7 @@
 
 ## Description
 
-This project is the first phase of the HBnB Evolution application. The objective is to design the application's architecture and business logic using UML diagrams before implementation.
-
-Project Overview:
- HBnB Evolution is a multi-tier accommodation marketplace application managing users, places, reviews, and amenities.
-
-Purpose:
- This document establishes the architectural layout and object relationships prior to code implementation to ensure systemic consistency.
+This project is the first phase of the HBnB Evolution application. The objective is to design the application's architecture and business logic using UML diagrams before implementatation.
 
 The documentation includes:
 
@@ -29,13 +23,10 @@ Abstracts raw storage access using transactional databases.
 The application models the following entities:
 
 * User 
-Tracks user credentials, email validation constraints, and host/guest authorization states.
 * Place
-Defines the accommodations listed by hosts; enforces positive coordinate and pricing boundaries.  
 * Review
-Handles textual and numeric feedback ratings submitted exclusively by verified past guests.
 * Amenity
-Standardizes globally shared property attributes.
+
 
 ### Design Choices and Rationale
 
@@ -44,19 +35,6 @@ Standardizes globally shared property attributes.
   **Decoupled CRUD Operations**
   Communication between the Business Logic and Persistence Layers relies entirely on standardized CRUD repository abstractions. This isolates database storage routines, allowing back-end database changes to occur with zero modifications to the core business logic models.
 
-
-## API Interaction Flow
-
-### Runtime Layer Orchestration
-To process API calls seamlessly without tight component coupling, requests traverse through clear system boundaries following this sequential lifecycle:
-
-1. **Client** &rarr; Sends parameters to a public routing endpoint in the `PresentationLayer (API)`.
-2. **API Controller** &rarr; Maps variables, sanitizes inputs, and calls the unified `Facade`.
-3. **Facade Interface** &rarr; Forwards parameters to validate constraints inside the `BusinessLogicLayer`.
-4. **Domain Entities** &rarr; Execute core business logic and delegate state mutations to the `PersistenceLayer`.
-5. **Repository Engine** &rarr; Commits data changes safely to long-term storage (`Database`).
-
-> **Diagram Reference:** The visual layouts detailing these precise method execution paths are located in `part1/sequence_diagrams/`.
 
 ## Team Members
 
