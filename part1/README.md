@@ -37,6 +37,27 @@ Handles textual and numeric feedback ratings submitted exclusively by verified p
 * Amenity
 Standardizes globally shared property attributes.
 
+### Design Choices and Rationale
+
+ **The Facade Pattern Integration**
+  The Presentation Layer interfaces exclusively with a unified Facade class sitting inside the Business Logic Layer. This decouples API routing handlers from internal subsystem changes, hides object instantiation complexities, and ensures core validation rules remain insulated.
+  **Decoupled CRUD Operations**
+  Communication between the Business Logic and Persistence Layers relies entirely on standardized CRUD repository abstractions. This isolates database storage routines, allowing back-end database changes to occur with zero modifications to the core business logic models.
+
+
+## API Interaction Flow
+
+### Runtime Layer Orchestration
+To process API calls seamlessly without tight component coupling, requests traverse through clear system boundaries following this sequential lifecycle:
+
+1. **Client** &rarr; Sends parameters to a public routing endpoint in the `PresentationLayer (API)`.
+2. **API Controller** &rarr; Maps variables, sanitizes inputs, and calls the unified `Facade`.
+3. **Facade Interface** &rarr; Forwards parameters to validate constraints inside the `BusinessLogicLayer`.
+4. **Domain Entities** &rarr; Execute core business logic and delegate state mutations to the `PersistenceLayer`.
+5. **Repository Engine** &rarr; Commits data changes safely to long-term storage (`Database`).
+
+> **Diagram Reference:** The visual layouts detailing these precise method execution paths are located in `part1/sequence_diagrams/`.
+
 ## Team Members
 
 * Albedah Bothaina
@@ -59,4 +80,3 @@ part1/
 * Model the application's business entities and their relationships.
 * Illustrate interactions between application layers.
 * Provide documentation to guide future implementation.
-
