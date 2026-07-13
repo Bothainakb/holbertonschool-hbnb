@@ -1,11 +1,9 @@
-# src/api/v1/amenities.py
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from src.services import facade
 
 api = Namespace('amenities', description='Amenity operations')
 
-# نموذج البيانات المرجعة والمدخلة للمرافق
 amenity_model = api.model('Amenity', {
     'id': fields.String(description='The amenity unique identifier'),
     'name': fields.String(required=True, description='Name of the amenity')
@@ -21,7 +19,6 @@ class AmenityList(Resource):
         """Create a new amenity"""
         amenity_data = request.json
         
-        # التحقق من عدم تكرار اسم المرفق
         existing_amenity = facade.get_amenity_by_name(amenity_data['name'])
         if existing_amenity:
             api.abort(400, "Amenity name already exists")
@@ -57,7 +54,6 @@ class AmenityResource(Resource):
         
         update_data = request.json
         
-        # التأكد من أن الاسم الجديد غير مستخدم في مرفق آخر
         if 'name' in update_data and update_data['name'] != amenity.name:
             existing_amenity = facade.get_amenity_by_name(update_data['name'])
             if existing_amenity:
