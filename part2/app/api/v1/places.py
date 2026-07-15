@@ -28,6 +28,15 @@ class PlaceList(Resource):
             if field not in data:
                 return {"error": f"Missing {field}"}, 400
 
+        if float(data['price']) < 0:
+            return {"error": "Price cannot be negative"}, 400
+
+        if not (-90 <= float(data['latitude']) <= 90):
+            return {"error": "Latitude must be between -90 and 90"}, 400
+
+        if not (-180 <= float(data['longitude']) <= 180):
+            return {"error": "Longitude must be between -180 and 180"}, 400
+
         place = Place(
             title=data['title'],
             description=data['description'],
@@ -92,6 +101,15 @@ class PlaceResource(Resource):
             return {"error": "Place not found"}, 404
 
         data = request.get_json()
+
+        if 'price' in data and float(data['price']) < 0:
+            return {"error": "Price cannot be negative"}, 400
+
+        if 'latitude' in data and not (-90 <= float(data['latitude']) <= 90):
+            return {"error": "Latitude must be between -90 and 90"}, 400
+
+        if 'longitude' in data and not (-180 <= float(data['longitude']) <= 180):
+            return {"error": "Longitude must be between -180 and 180"}, 400
 
         facade.update_place(place_id, data)
 
