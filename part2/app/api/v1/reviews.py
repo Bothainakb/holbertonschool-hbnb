@@ -11,8 +11,6 @@ facade = HBnBFacade()
 
 @api.route('/')
 class ReviewList(Resource):
-    @api.route('/')
-class ReviewList(Resource):
 
     def post(self):
         data = request.get_json()
@@ -24,23 +22,16 @@ class ReviewList(Resource):
             'user'
         ]
 
-    def get(self):
-    reviews = facade.get_all_reviews()
-
-    return [
-        {
-            "id": review.id,
-            "text": review.text,
-            "rating": review.rating,
-            "place": review.place,
-            "user": review.user
-        }
-        for review in reviews
-    ], 200
-
         for field in required_fields:
             if field not in data:
                 return {"error": f"Missing {field}"}, 400
+
+        try:
+            rating = int(data['rating'])
+            if not (1 <= rating <= 5):
+                return {"error": "Rating must be an integer between 1 and 5"}, 400
+        except (ValueError, TypeError):
+            return {"error": "Rating must be an integer between 1 and 5"}, 400
 
         review = Review(
             text=data['text'],
@@ -59,10 +50,22 @@ class ReviewList(Resource):
             "user": review.user
         }, 201
 
+    def get(self):
+        reviews = facade.get_all_reviews()
+
+        return [
+            {
+                "id": review.id,
+                "text": review.text,
+                "rating": review.rating,
+                "place": review.place,
+                "user": review.user
+            }
+            for review in reviews
+        ], 200
+
 
 @api.route('/<string:review_id>')
-class ReviewResource(Resource):
-    @api.route('/<string:review_id>')
 class ReviewResource(Resource):
 
     def get(self, review_id):
@@ -86,6 +89,14 @@ class ReviewResource(Resource):
             return {"error": "Review not found"}, 404
 
         data = request.get_json()
+
+        if 'rating' in data:
+            try:
+                rating = int(data['rating'])
+                if not (1 <= rating <= 5):
+                    return {"error": "Rating must be an integer between 1 and 5"}, 400
+            except (ValueError, TypeError):
+                return {"error": "Rating must be an integer between 1 and 5"}, 400
 
         facade.update_review(review_id, data)
 
