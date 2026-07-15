@@ -7,12 +7,38 @@ class HBnBFacade:
         self.review_repo = InMemoryRepository()
         self.amenity_repo = InMemoryRepository()
 
-    # Placeholder method for creating a user
+    # User (Task 2)
     def create_user(self, user_data):
-        # Logic will be implemented in later tasks
         pass
 
-    # Placeholder method for fetching a place by ID
+    # Place (Task 4)
+    def create_place(self, place_data):
+        pass
+
     def get_place(self, place_id):
-        # Logic will be implemented in later tasks
+        pass
+
+    def get_all_places(self):
+        pass
+
+    def update_place(self, place_id, place_data):
+        pass
+
+    # Review (Task 5)
+    def create_review(self, review_data):
+        pass
+
+    def get_review(self, review_id):
+        pass
+
+    def get_all_reviews(self):
+        pass
+
+    def update_review(self, review_id, review_data):
+        pass
+
+    def delete_review(self, review_id):
+        pass
+
+    def get_reviews_by_place(self, place_id):
         pass
