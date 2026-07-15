@@ -47,7 +47,22 @@ class PlaceList(Resource):
             "latitude": place.latitude,
             "longitude": place.longitude
         }, 201
+    
+    def get(self):
+    places = facade.get_all_places()
 
+    return [
+        {
+            "id": place.id,
+            "title": place.title,
+            "description": place.description,
+            "price": place.price,
+            "latitude": place.latitude,
+            "longitude": place.longitude,
+            "owner": place.owner
+        }
+        for place in places
+    ], 200
 
 @api.route('/<place_id>')
 class PlaceResource(Resource):
