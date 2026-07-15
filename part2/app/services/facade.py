@@ -1,5 +1,6 @@
 from app.persistence.repository import InMemoryRepository
 
+
 class HBnBFacade:
     def __init__(self):
         self.user_repo = InMemoryRepository()
@@ -7,38 +8,76 @@ class HBnBFacade:
         self.review_repo = InMemoryRepository()
         self.amenity_repo = InMemoryRepository()
 
-    # User (Task 2)
-    def create_user(self, user_data):
-        pass
+    # ---------- User Methods ----------
 
-    # Place (Task 4)
-    def create_place(self, place_data):
-        pass
+    def create_user(self, user):
+        self.user_repo.add(user)
+        return user
+
+    def get_user(self, user_id):
+        return self.user_repo.get(user_id)
+
+    def get_all_users(self):
+        return self.user_repo.get_all()
+
+    def update_user(self, user_id, data):
+        self.user_repo.update(user_id, data)
+        return self.user_repo.get(user_id)
+
+    # ---------- Amenity Methods ----------
+
+    def create_amenity(self, amenity):
+        self.amenity_repo.add(amenity)
+        return amenity
+
+    def get_amenity(self, amenity_id):
+        return self.amenity_repo.get(amenity_id)
+
+    def get_all_amenities(self):
+        return self.amenity_repo.get_all()
+
+    def update_amenity(self, amenity_id, data):
+        self.amenity_repo.update(amenity_id, data)
+        return self.amenity_repo.get(amenity_id)
+
+    # ---------- Place Methods ----------
+
+    def create_place(self, place):
+        self.place_repo.add(place)
+        return place
 
     def get_place(self, place_id):
-        pass
+        return self.place_repo.get(place_id)
 
     def get_all_places(self):
-        pass
+        return self.place_repo.get_all()
 
-    def update_place(self, place_id, place_data):
-        pass
+    def update_place(self, place_id, data):
+        self.place_repo.update(place_id, data)
+        return self.place_repo.get(place_id)
 
-    # Review (Task 5)
-    def create_review(self, review_data):
-        pass
+    # ---------- Review Methods ----------
+
+    def create_review(self, review):
+        self.review_repo.add(review)
+        return review
 
     def get_review(self, review_id):
-        pass
+        return self.review_repo.get(review_id)
 
     def get_all_reviews(self):
-        pass
+        return self.review_repo.get_all()
 
-    def update_review(self, review_id, review_data):
-        pass
+    def update_review(self, review_id, data):
+        self.review_repo.update(review_id, data)
+        return self.review_repo.get(review_id)
 
     def delete_review(self, review_id):
-        pass
+        self.review_repo.delete(review_id)
 
     def get_reviews_by_place(self, place_id):
-        pass
+        reviews = self.review_repo.get_all()
+        return [
+            review for review in reviews
+            if review.place.id == place_id
+        ]
