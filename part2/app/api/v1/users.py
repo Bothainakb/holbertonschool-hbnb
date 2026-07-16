@@ -13,6 +13,12 @@ user_model = api.model('User', {
 
 @api.route('/')
 class UserList(Resource):
+    @api.doc('list_users')
+    def get(self):
+        """Fetch all users"""
+        all_users = facade.get_all_users()
+        return [user.to_dict() for user in all_users], 200
+
     @api.expect(user_model, validate=True)
     @api.response(201, 'User successfully created')
     @api.response(400, 'Email already registered or invalid data')
