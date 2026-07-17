@@ -4,8 +4,32 @@
 This project implements the three-layer architecture (Presentation, Business Logic, Persistence) for the HBnB application using a **Facade pattern** and an **In-Memory repository**. The Business Logic layer defines core entities and their relationships with comprehensive validation.
 
 ## Project Structure
-part2/ ├── app/ │ ├── init.py # Flask app initialization │ ├── models/ │ │ ├── init.py │ │ ├── base.py # BaseModel class (UUID, timestamps) │ │ ├── user.py # User entity │ │ ├── place.py # Place entity │ │ ├── review.py # Review entity │ │ └── amenity.py # Amenity entity │ ├── persistence/ │ │ ├── init.py │ │ └── repository.py # In-memory repository pattern │ ├── services/ │ │ ├── init.py │ │ └── facade.py # Facade pattern (Business Logic interface) │ └── api/ │ └── v1/ # API endpoints ├── tests/ │ └── test_models.py # Comprehensive test suite (24 tests) ├── config.py # Configuration settings ├── requirements.txt # Project dependencies ├── run.py # Application entry point └── 
-R
+part2/
+├── app/
+│   ├── init.py           # Flask app initialization
+│   ├── models/
+│   │   ├── init.py
+│   │   ├── base.py       # BaseModel class (UUID, timestamps)
+│   │   ├── user.py       # User entity
+│   │   ├── place.py      # Place entity
+│   │   ├── review.py     # Review entity
+│   │   └── amenity.py    # Amenity entity
+│   ├── persistence/
+│   │   ├── init.py
+│   │   └── repository.py # In-memory repository pattern
+│   ├── services/
+│   │   ├── init.py
+│   │   └── facade.py     # Facade pattern (Business Logic interface)
+│   └── api/
+│       └── v1/           # API endpoints
+├── tests/
+│   └── test_models.py    # Comprehensive test suite (24 tests)
+├── config.py             # Configuration settings
+├── requirements.txt      # Project dependencies
+├── run.py                # Application entry point
+└── ...
+
+
 ## Business Logic Layer
 
 The Business Logic layer manages core entities and their relationships. Each entity inherits from `BaseModel` which provides:
