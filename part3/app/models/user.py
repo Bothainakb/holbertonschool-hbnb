@@ -1,15 +1,19 @@
 import re
+from flask_bcrypt import Bcrypt
 from app.models.base import BaseModel
+
+bcrypt = Bcrypt()
 
 class User(BaseModel):
     # Class variable to store all users for uniqueness validation
     _all_users = []
     
-    def __init__(self, first_name, last_name, email, is_admin=False):
+    def __init__(self, first_name, last_name, email, password, is_admin=False):
         super().__init__()
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
         self.is_admin = is_admin
         self.validate()
         User._all_users.append(self)
@@ -52,3 +56,6 @@ class User(BaseModel):
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat()
         }
+
+    def verify_password(self, password):
+    return bcrypt.check_password_hash(self.password, password)
