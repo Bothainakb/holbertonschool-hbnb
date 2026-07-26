@@ -46,16 +46,14 @@ class User(BaseModel):
                 raise ValueError(f"Email {self.email} is already in use")
 
     def to_dict(self):
-        """Return a dictionary representation of User"""
-        return {
-            "id": self.id,
-            "first_name": self.first_name,
-            "last_name": self.last_name,
-            "email": self.email,
-            "is_admin": self.is_admin,
-            "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat()
-        }
+    data = super().to_dict()
+    data.update({
+        "first_name": self.first_name,
+        "last_name": self.last_name,
+        "email": self.email,
+        "is_admin": self.is_admin
+    })
+    return data
 
     def verify_password(self, password):
     return bcrypt.check_password_hash(self.password, password)
