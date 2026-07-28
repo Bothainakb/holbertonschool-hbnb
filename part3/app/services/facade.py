@@ -1,5 +1,5 @@
 from app.persistence.repository import InMemoryRepository
-from app.models.user import User
+from app.models.user import User, bcrypt
 from app.models.place import Place
 from app.models.review import Review
 from app.models.amenity import Amenity
@@ -17,17 +17,18 @@ class HBnBFacade:
         self.review_repo = InMemoryRepository()
         self.amenity_repo = InMemoryRepository()
 
-    # ========== USER OPERATIONS ==========
+    # ================= USER OPERATIONS =================
 
     def create_user(self, user_data):
-        """Create a new user from a dict of fields"""
+        """Create a new user"""
         user = User(
-            first_name=user_data.get('first_name'),
-            last_name=user_data.get('last_name'),
-            email=user_data.get('email'),
-            password=user_data.get('password'),
-            is_admin=user_data.get('is_admin', False)
+            first_name=user_data.get("first_name"),
+            last_name=user_data.get("last_name"),
+            email=user_data.get("email"),
+            password=user_data.get("password"),
+            is_admin=user_data.get("is_admin", False)
         )
+
         self.user_repo.add(user)
         return user
 
@@ -40,18 +41,27 @@ class HBnBFacade:
         return self.user_repo.get_all()
 
     def update_user(self, user_id, user_data):
-        """Update a user by ID"""
+        """Update a user"""
+
         user = self.user_repo.get(user_id)
-        if user:
-            user.update(user_data)
-            return user
-        return None
+
+        if not user:
+            return None
+
+        # Hash a new password before storing it
+        if "password" in user_data:
+            user_data["password"] = bcrypt.generate_password_hash(
+                user_data["password"]
+            ).decode("utf-8")
+
+        user.update(user_data)
+        return user
 
     def get_user_by_email(self, email):
         """Retrieve a user by email"""
-        return self.user_repo.get_by_attribute('email', email)
+        return self.user_repo.get_by_attribute("email", email)
 
-    # ========== AMENITY OPERATIONS ==========
+    # ================= AMENITY OPERATIONS =================
 
     def create_amenity(self, amenity_data):
         """Create a new amenity"""
@@ -68,29 +78,35 @@ class HBnBFacade:
         return self.amenity_repo.get_all()
 
     def update_amenity(self, amenity_id, amenity_data):
-        """Update an amenity by ID"""
-        amenity = self.amenity_repo.get(amenity_id)
-        if amenity:
-            amenity.update(amenity_data)
-            return amenity
-        return None
+        """Update an amenity"""
 
-    # ========== PLACE OPERATIONS ==========
+        amenity = self.amenity_repo.get(amenity_id)
+
+        if not amenity:
+            return None
+
+        amenity.update(amenity_data)
+        return amenity
+
+    # ================= PLACE OPERATIONS =================
 
     def create_place(self, place_data):
-        """Create a new place. Expects owner_id in place_data."""
-        owner = self.get_user(place_data.get('owner_id'))
+        """Create a new place"""
+
+        owner = self.get_user(place_data.get("owner_id"))
+
         if not owner:
             raise ValueError("Owner not found")
 
         place = Place(
-            title=place_data.get('title'),
-            description=place_data.get('description'),
-            price=place_data.get('price'),
-            latitude=place_data.get('latitude'),
-            longitude=place_data.get('longitude'),
+            title=place_data.get("title"),
+            description=place_data.get("description"),
+            price=place_data.get("price"),
+            latitude=place_data.get("latitude"),
+            longitude=place_data.get("longitude"),
             owner=owner
         )
+
         self.place_repo.add(place)
         return place
 
@@ -103,30 +119,37 @@ class HBnBFacade:
         return self.place_repo.get_all()
 
     def update_place(self, place_id, place_data):
-        """Update a place by ID"""
-        place = self.place_repo.get(place_id)
-        if place:
-            place.update(place_data)
-            return place
-        return None
+        """Update a place"""
 
-    # ========== REVIEW OPERATIONS ==========
+        place = self.place_repo.get(place_id)
+
+        if not place:
+            return None
+
+        place.update(place_data)
+        return place
+
+    # ================= REVIEW OPERATIONS =================
 
     def create_review(self, review_data):
-        """Create a new review. Expects place_id and user_id in review_data."""
-        place = self.get_place(review_data.get('place_id'))
-        user = self.get_user(review_data.get('user_id'))
+        """Create a new review"""
+
+        place = self.get_place(review_data.get("place_id"))
+        user = self.get_user(review_data.get("user_id"))
+
         if not place or not user:
             raise ValueError("Invalid place or user")
 
         review = Review(
-            text=review_data.get('text'),
-            rating=review_data.get('rating'),
+            text=review_data.get("text"),
+            rating=review_data.get("rating"),
             place=place,
             user=user
         )
+
         self.review_repo.add(review)
         place.add_review(review)
+
         return review
 
     def get_review(self, review_id):
@@ -138,20 +161,26 @@ class HBnBFacade:
         return self.review_repo.get_all()
 
     def update_review(self, review_id, review_data):
-        """Update a review by ID"""
+        """Update a review"""
+
         review = self.review_repo.get(review_id)
-        if review:
-            review.update(review_data)
-            return review
-        return None
+
+        if not review:
+            return None
+
+        review.update(review_data)
+        return review
 
     def delete_review(self, review_id):
-        """Delete a review by ID"""
+        """Delete a review"""
         return self.review_repo.delete(review_id)
 
     def get_reviews_by_place(self, place_id):
         """Retrieve all reviews for a specific place"""
+
         place = self.place_repo.get(place_id)
-        if place:
-            return place.reviews
-        return []
+
+        if not place:
+            return []
+
+        return place.reviews
