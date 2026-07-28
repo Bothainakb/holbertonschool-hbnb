@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restx import Api
-
+from flask_jwt_extended import JWTManager
 from app.config import config
 
 from app.api.v1.places import api as places_ns
