@@ -10,7 +10,7 @@ class HBnBFacade:
     Facade class that manages communication between the Presentation,
     Business Logic, and Persistence layers.
     """
-    
+
     def __init__(self):
         self.user_repo = InMemoryRepository()
         self.place_repo = InMemoryRepository()
@@ -18,10 +18,16 @@ class HBnBFacade:
         self.amenity_repo = InMemoryRepository()
 
     # ========== USER OPERATIONS ==========
-    
+
     def create_user(self, user_data):
-        """Create a new user"""
-        user = User(**user_data)
+        """Create a new user from a dict of fields"""
+        user = User(
+            first_name=user_data.get('first_name'),
+            last_name=user_data.get('last_name'),
+            email=user_data.get('email'),
+            password=user_data.get('password'),
+            is_admin=user_data.get('is_admin', False)
+        )
         self.user_repo.add(user)
         return user
 
@@ -46,7 +52,7 @@ class HBnBFacade:
         return self.user_repo.get_by_attribute('email', email)
 
     # ========== AMENITY OPERATIONS ==========
-    
+
     def create_amenity(self, amenity_data):
         """Create a new amenity"""
         amenity = Amenity(**amenity_data)
@@ -70,10 +76,21 @@ class HBnBFacade:
         return None
 
     # ========== PLACE OPERATIONS ==========
-    
+
     def create_place(self, place_data):
-        """Create a new place"""
-        place = Place(**place_data)
+        """Create a new place. Expects owner_id in place_data."""
+        owner = self.get_user(place_data.get('owner_id'))
+        if not owner:
+            raise ValueError("Owner not found")
+
+        place = Place(
+            title=place_data.get('title'),
+            description=place_data.get('description'),
+            price=place_data.get('price'),
+            latitude=place_data.get('latitude'),
+            longitude=place_data.get('longitude'),
+            owner=owner
+        )
         self.place_repo.add(place)
         return place
 
@@ -94,11 +111,22 @@ class HBnBFacade:
         return None
 
     # ========== REVIEW OPERATIONS ==========
-    
+
     def create_review(self, review_data):
-        """Create a new review"""
-        review = Review(**review_data)
+        """Create a new review. Expects place_id and user_id in review_data."""
+        place = self.get_place(review_data.get('place_id'))
+        user = self.get_user(review_data.get('user_id'))
+        if not place or not user:
+            raise ValueError("Invalid place or user")
+
+        review = Review(
+            text=review_data.get('text'),
+            rating=review_data.get('rating'),
+            place=place,
+            user=user
+        )
         self.review_repo.add(review)
+        place.add_review(review)
         return review
 
     def get_review(self, review_id):
@@ -116,6 +144,10 @@ class HBnBFacade:
             review.update(review_data)
             return review
         return None
+
+    def delete_review(self, review_id):
+        """Delete a review by ID"""
+        return self.review_repo.delete(review_id)
 
     def get_reviews_by_place(self, place_id):
         """Retrieve all reviews for a specific place"""
