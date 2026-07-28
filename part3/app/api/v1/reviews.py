@@ -1,121 +1,75 @@
-from flask import request
-from flask_restx import Namespace, Resource
-
-from app.services.facade import HBnBFacade
-from app.models.review import Review
+from flask_restx import Namespace, Resource, fields
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.services import facade
 
 api = Namespace('reviews', description='Review operations')
 
-facade = HBnBFacade()
+review_model = api.model('Review', {
+    'place_id': fields.String(required=True, description='ID of the place being reviewed'),
+    'text': fields.String(required=True, description='Content of the review'),
+    'rating': fields.Integer(required=True, description='Rating from 1 to 5')
+})
 
 
 @api.route('/')
 class ReviewList(Resource):
-
+    @jwt_required()
+    @api.expect(review_model)
     def post(self):
-        data = request.get_json()
+        """Create a new review (authenticated users only)"""
+        current_user = get_jwt_identity()
+        review_data = api.payload
 
-        required_fields = [
-            'text',
-            'rating',
-            'place',
-            'user'
-        ]
+        place = facade.get_place(review_data['place_id'])
+        if not place:
+            return {'error': 'Place not found'}, 404
 
-        for field in required_fields:
-            if field not in data:
-                return {"error": f"Missing {field}"}, 400
+        if place.owner.id == current_user:
+            return {'error': 'You cannot review your own place.'}, 400
+
+        for review in place.reviews:
+            if review.user.id == current_user:
+                return {'error': 'You have already reviewed this place.'}, 400
+
+        review_data['user_id'] = current_user
 
         try:
-            rating = int(data['rating'])
-            if not (1 <= rating <= 5):
-                return {"error": "Rating must be an integer between 1 and 5"}, 400
-        except (ValueError, TypeError):
-            return {"error": "Rating must be an integer between 1 and 5"}, 400
+            review = facade.create_review(review_data)
+        except ValueError as e:
+            return {'error': str(e)}, 400
 
-        review = Review(
-            text=data['text'],
-            rating=data['rating'],
-            place=data['place'],
-            user=data['user']
-        )
-
-        facade.create_review(review)
-
-        return {
-            "id": review.id,
-            "text": review.text,
-            "rating": review.rating,
-            "place": review.place,
-            "user": review.user
-        }, 201
-
-    def get(self):
-        reviews = facade.get_all_reviews()
-
-        return [
-            {
-                "id": review.id,
-                "text": review.text,
-                "rating": review.rating,
-                "place": review.place,
-                "user": review.user
-            }
-            for review in reviews
-        ], 200
+        return review.to_dict(), 201
 
 
-@api.route('/<string:review_id>')
+@api.route('/<review_id>')
 class ReviewResource(Resource):
-
-    def get(self, review_id):
-        review = facade.get_review(review_id)
-
-        if review is None:
-            return {"error": "Review not found"}, 404
-
-        return {
-            "id": review.id,
-            "text": review.text,
-            "rating": review.rating,
-            "place": review.place,
-            "user": review.user
-        }, 200
-
+    @jwt_required()
+    @api.expect(review_model)
     def put(self, review_id):
+        """Update a review (only the review's author)"""
+        current_user = get_jwt_identity()
+
         review = facade.get_review(review_id)
+        if not review:
+            return {'error': 'Review not found'}, 404
 
-        if review is None:
-            return {"error": "Review not found"}, 404
+        if review.user.id != current_user:
+            return {'error': 'Unauthorized action'}, 403
 
-        data = request.get_json()
+        updated_review = facade.update_review(review_id, api.payload)
+        return updated_review.to_dict(), 200
 
-        if 'rating' in data:
-            try:
-                rating = int(data['rating'])
-                if not (1 <= rating <= 5):
-                    return {"error": "Rating must be an integer between 1 and 5"}, 400
-            except (ValueError, TypeError):
-                return {"error": "Rating must be an integer between 1 and 5"}, 400
-
-        facade.update_review(review_id, data)
-
-        updated_review = facade.get_review(review_id)
-
-        return {
-            "id": updated_review.id,
-            "text": updated_review.text,
-            "rating": updated_review.rating,
-            "place": updated_review.place,
-            "user": updated_review.user
-        }, 200
-
+    @jwt_required()
     def delete(self, review_id):
-        review = facade.get_review(review_id)
+        """Delete a review (only the review's author)"""
+        current_user = get_jwt_identity()
 
-        if review is None:
-            return {"error": "Review not found"}, 404
+        review = facade.get_review(review_id)
+        if not review:
+            return {'error': 'Review not found'}, 404
+
+        if review.user.id != current_user:
+            return {'error': 'Unauthorized action'}, 403
 
         facade.delete_review(review_id)
-
-        return {"message": "Review deleted successfully"}, 200
+        return {'message': 'Review deleted successfully'}, 200
