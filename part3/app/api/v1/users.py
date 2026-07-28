@@ -1,6 +1,6 @@
 from flask import request
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
 
 api = Namespace('users', description='User operations')
@@ -25,7 +25,8 @@ class UserList(Resource):
         """Fetch all users"""
         all_users = facade.get_all_users()
         return [user.to_dict() for user in all_users], 200
-
+    
+    @jwt_required()
     @api.expect(user_model, validate=True)
     @api.response(201, 'User successfully created')
     @api.response(400, 'Email already registered or invalid data')
@@ -61,16 +62,22 @@ class UserResource(Resource):
     def put(self, user_id):
         """Modify user information (self only, excluding email/password)"""
         current_user = get_jwt_identity()
+        claims = get_jwt()
 
-        # Check that the user_id in the URL matches the authenticated user
-        if user_id != current_user:
-            return {'error': 'Unauthorized action'}, 403
+        if not claims.get("is_admin") and user_id != current_user:
+            return {"error": "Unauthorized action"}, 403
 
         user_data = api.payload
 
-        # Prevent modifying email or password here
-        if 'email' in user_data or 'password' in user_data:
-            return {'error': 'You cannot modify email or password.'}, 400
+        claims = get_jwt()
+        if not claims.get("is_admin"):
+            return {"error": "Administrator privileges required"}, 403
+
+        if not claims.get("is_admin"):
+            if "email" in user_data or "password" in user_data:
+                return {
+                    "error": "You cannot modify email or password."
+                }, 400
 
         user = facade.update_user(user_id, user_data)
         if not user:
