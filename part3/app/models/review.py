@@ -1,12 +1,19 @@
 from app.models.base import BaseModel
 
 class Review(BaseModel):
-    def __init__(self, text, rating, place, user):
-        super().__init__()
+    __tablename = 'reviews'
+
+    text = db.Column(db.String(500), nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
+    place_id = db.Column(db.String(36), nullable=False)
+    user_id = db.Column(db.String(36), nullable=False)
+
+    def __init__(self, text, rating, place_id, user_id):
+    
         self.text = text
         self.rating = rating
-        self.place = place
-        self.user = user
+        self.place_id = place_id
+        self.user_id = user_id
         self.validate()
 
     def validate(self):
@@ -26,18 +33,14 @@ class Review(BaseModel):
             raise ValueError("Rating must be an integer between 1 and 5")
         
         # Check place exists and is valid
-        if self.place is None:
+        if not self.place_id:
             raise ValueError("Place cannot be empty")
-        from app.models.place import Place
-        if not isinstance(self.place, Place):
-            raise ValueError("Place must be a valid Place instance")
+        
         
         # Check user exists and is valid
-        if self.user is None:
+        if not self.user_id:
             raise ValueError("User cannot be empty")
-        from app.models.user import User
-        if not isinstance(self.user, User):
-            raise ValueError("User must be a valid User instance")
+    
 
     def to_dict(self):
         """Return a dictionary representation of Review"""
@@ -45,8 +48,8 @@ class Review(BaseModel):
             "id": self.id,
             "text": self.text,
             "rating": int(self.rating),
-            "place_id": self.place.id,
-            "user_id": self.user.id,
+            "place_id": self.place_id,
+            "user_id": self.user_id,
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat()
         } 

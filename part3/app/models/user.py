@@ -1,5 +1,6 @@
 import re
 from flask_bcrypt import Bcrypt
+from app import db
 from app.models.base import BaseModel
 
 bcrypt = Bcrypt()
@@ -7,10 +8,15 @@ bcrypt = Bcrypt()
 
 class User(BaseModel):
     # Class variable to store all users for uniqueness validation
-    _all_users = []
+    __tablename__ = 'users'
+
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    password = db.Column(db.String(128), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
 
     def __init__(self, first_name, last_name, email, password, is_admin=False):
-        super().__init__()
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
@@ -18,7 +24,6 @@ class User(BaseModel):
         self.is_admin = is_admin
 
         self.validate()
-        User._all_users.append(self)
 
     def validate(self):
         """Validate user attributes according to requirements"""
@@ -43,10 +48,6 @@ class User(BaseModel):
         if not re.match(email_regex, self.email):
             raise ValueError("Invalid email format")
 
-        # Check email uniqueness
-        for user in User._all_users:
-            if user.email == self.email and user.id != self.id:
-                raise ValueError(f"Email {self.email} is already in use")
 
     def to_dict(self):
         """Return a dictionary representation of the user"""

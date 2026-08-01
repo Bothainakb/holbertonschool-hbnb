@@ -1,16 +1,23 @@
 from app.models.base import BaseModel
+from app import db
 
 class Place(BaseModel):
-    def __init__(self, title, description, price, latitude, longitude, owner):
-        super().__init__()
+    __tablename__ = 'places'
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(500))
+    price = db.Column(db.Float, nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
+    owner_id = db.Column(db.String(36), nullable=False)
+
+    def __init__(self, title, description, price, latitude, longitude, owner_id):
+        
         self.title = title
         self.description = description
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.owner = owner
-        self.reviews = []  # List to store related reviews
-        self.amenities = []  # List to store related amenities
+        self.owner_id = owner_id
         self.validate()
 
     def validate(self):
@@ -52,34 +59,8 @@ class Place(BaseModel):
             raise ValueError("Longitude must be a valid number between -180.0 and 180.0")
         
         # Check owner exists
-        if self.owner is None:
+        if not self.owner_id:
             raise ValueError("Owner cannot be empty")
-        # Additional check: ensure owner is a User instance
-        from app.models.user import User
-        if not isinstance(self.owner, User):
-            raise ValueError("Owner must be a valid User instance")
-
-    def add_review(self, review):
-        """Add a review to the place."""
-        if review is None:
-            raise ValueError("Review cannot be empty")
-        # Optional: validate review is a Review instance
-        from app.models.review import Review
-        if not isinstance(review, Review):
-            raise ValueError("Review must be a valid Review instance")
-        if review not in self.reviews:
-            self.reviews.append(review)
-
-    def add_amenity(self, amenity):
-        """Add an amenity to the place."""
-        if amenity is None:
-            raise ValueError("Amenity cannot be empty")
-        # Optional: validate amenity is an Amenity instance
-        from app.models.amenity import Amenity
-        if not isinstance(amenity, Amenity):
-            raise ValueError("Amenity must be a valid Amenity instance")
-        if amenity not in self.amenities:
-            self.amenities.append(amenity)
 
     def to_dict(self):
         """Return a dictionary representation of Place"""
