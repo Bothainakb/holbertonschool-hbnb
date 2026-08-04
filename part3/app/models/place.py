@@ -33,13 +33,6 @@ class Place(BaseModel):
         cascade="all, delete-orphan"
     )
 
-    amenities = db.relationship(
-        "Amenity",
-        secondary=place_amenity,
-        lazy="subquery",
-        backref=db.backref("places", lazy=True)
-    )
-
     def __init__(self, title, description, price, latitude, longitude, owner_id):
         self.title = title
         self.description = description
