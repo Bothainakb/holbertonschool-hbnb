@@ -27,10 +27,10 @@ class ReviewList(Resource):
         if not place:
             return {'error': 'Place not found'}, 404
 
-        if place.owner.id == current_user:
+        if place.owner_id == current_user:
             return {'error': 'You cannot review your own place.'}, 400
 
-        for review in place.reviews:
+        for review in facade.get_reviews_by_place(review_data['place_id']):
             if review.user.id == current_user:
                 return {'error': 'You have already reviewed this place.'}, 400
 
@@ -67,7 +67,7 @@ class ReviewResource(Resource):
 
         if (
             not claims.get("is_admin")
-            and review.user.id != current_user
+            and review.user_id != current_user
         ):
             return {'error': 'Unauthorized action'}, 403
 
@@ -97,7 +97,7 @@ class ReviewResource(Resource):
 
         if (
             not claims.get("is_admin")
-            and review.user.id != current_user
+            and review.user_id != current_user
         ):
             return {'error': 'Unauthorized action'}, 403
 

@@ -81,7 +81,7 @@ class PlaceResource(Resource):
 
         if (
             not claims.get("is_admin")
-            and place.owner.id != current_user
+            and place.owner_id != current_user
         ):
             return {"error": "Unauthorized action"}, 403
 

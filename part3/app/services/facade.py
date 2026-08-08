@@ -1,5 +1,6 @@
-from app.persistence.repository import InMemoryRepository
-from app.models.user import User, bcrypt
+from app.persistence.repository import SQLAlchemyRepository
+from app.models.user import User
+from app import bcrypt
 from app.models.place import Place
 from app.models.review import Review
 from app.models.amenity import Amenity
@@ -12,10 +13,10 @@ class HBnBFacade:
     """
 
     def __init__(self):
-        self.user_repo = InMemoryRepository()
-        self.place_repo = InMemoryRepository()
-        self.review_repo = InMemoryRepository()
-        self.amenity_repo = InMemoryRepository()
+        self.user_repo = SQLAlchemyRepository()
+        self.place_repo = SQLAlchemyRepository()
+        self.review_repo = SQLAlchemyRepository()
+        self.amenity_repo = SQLAlchemyRepository()
 
     # ================= USER OPERATIONS =================
 
@@ -104,7 +105,7 @@ class HBnBFacade:
             price=place_data.get("price"),
             latitude=place_data.get("latitude"),
             longitude=place_data.get("longitude"),
-            owner=owner
+            owner_id=owner.id
         )
 
         self.place_repo.add(place)
@@ -143,12 +144,12 @@ class HBnBFacade:
         review = Review(
             text=review_data.get("text"),
             rating=review_data.get("rating"),
-            place=place,
-            user=user
+            place_id=place.id,
+            user_id=user.id
         )
 
         self.review_repo.add(review)
-        place.add_review(review)
+        
 
         return review
 
@@ -177,10 +178,4 @@ class HBnBFacade:
 
     def get_reviews_by_place(self, place_id):
         """Retrieve all reviews for a specific place"""
-
-        place = self.place_repo.get(place_id)
-
-        if not place:
-            return []
-
-        return place.reviews
+        return [r for r in self.review_repo.get_all() if r.place_id == place_id]
