@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HBnB - Place Details</title>
+  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <a href="index.html" aria-label="HBnB Home">
+      <img src="logo.png" alt="HBnB logo" class="logo" onerror="this.style.display='none'">
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark/light mode">
+        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="icon-sun" class="icon-hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <a href="login.html" class="login-button">Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="place-details-wrapper">
+
+      <section class="place-details">
+        <img src="images/place1.jpg" alt="Cozy Apartment" onerror="this.style.display='none'">
+
+        <h1>Cozy Apartment</h1>
+
+        <p class="place-info">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <strong>Host:</strong> John Doe
+        </p>
+        <p class="place-info">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <strong>Price:</strong> $100 / night
+        </p>
+        <p class="place-info">
+          <strong>Description:</strong> A comfortable and affordable place to stay, close to downtown and public transit.
+        </p>
+
+        <p class="place-info"><strong>Amenities:</strong></p>
+        <div class="amenities-list">
+          <span class="amenity-tag">WiFi</span>
+          <span class="amenity-tag">Kitchen</span>
+          <span class="amenity-tag">Parking</span>
+          <span class="amenity-tag">Air conditioning</span>
+        </div>
+
+        <a href="add_review.html" class="add-review-button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          Add a Review
+        </a>
+      </section>
+
+      <section class="reviews">
+        <h2>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Reviews
+        </h2>
+
+        <div class="review-card">
+          <p class="review-user">Jane Smith</p>
+          <p class="review-rating">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            5 / 5
+          </p>
+          <p class="review-comment">Amazing place, super clean and the host was very responsive!</p>
+        </div>
+
+        <div class="review-card">
+          <p class="review-user">Mike Johnson</p>
+          <p class="review-rating">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            4 / 5
+          </p>
+          <p class="review-comment">Great location, would definitely stay again.</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 HBnB. All rights reserved.</p>
+  </footer>
+
+  <script src="theme.js"></script>
+</body>
+</html>
