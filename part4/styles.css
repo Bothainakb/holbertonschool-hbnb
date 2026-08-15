@@ -1,0 +1,459 @@
+/* ============================================================
+   HBnB — styles.css
+   Shared styles for all pages 
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root,
+[data-theme="light"] {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-soft: #fff5f5;
+  --border: #ffd6d6;
+  --border-strong: #ff6b6b;
+  --text: #3f2f2f;
+  --text-secondary: #7a5f5f;
+  --text-muted: #b89a9a;
+  --primary: #ff5c5c;
+  --primary-hover: #e64545;
+  --primary-soft: #ffe5e5;
+  --shadow: 0 8px 24px rgba(255, 92, 92, 0.15);
+  --shadow-soft: 0 6px 18px rgba(255, 92, 92, 0.12);
+}
+
+[data-theme="dark"] {
+  --bg: #201717;
+  --surface: #2b1e1e;
+  --surface-soft: #332222;
+  --border: #4a3232;
+  --border-strong: #ff6b6b;
+  --text: #f5eaea;
+  --text-secondary: #cbb0b0;
+  --text-muted: #937575;
+  --primary: #ff6b6b;
+  --primary-hover: #ff5252;
+  --primary-soft: #3d2626;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.25s, color 0.25s;
+}
+
+/* ── Header ── */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 36px;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  transition: background-color 0.25s, border-color 0.25s;
+}
+
+.logo {
+  height: 40px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+nav a {
+  margin-left: 14px;
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.login-button {
+  background-color: var(--primary);
+  color: white !important;
+  padding: 9px 20px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.login-button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  margin-left: 14px;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.theme-toggle:hover {
+  background-color: var(--primary-soft);
+  border-color: var(--primary);
+}
+
+.theme-toggle svg {
+  width: 17px;
+  height: 17px;
+}
+
+.icon-hidden {
+  display: none;
+}
+
+/* ── Main / layout ── */
+main {
+  flex: 1;
+  padding: 36px;
+  width: 100%;
+}
+
+main h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 22px;
+  color: var(--text);
+}
+
+/* ── Filter bar ── */
+.filter-bar {
+  margin-bottom: 22px;
+}
+
+.filter-bar select {
+  padding: 9px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  background: var(--surface-soft);
+  color: var(--text-secondary);
+}
+
+/* ── Places grid ── */
+.places-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 4px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.place-card {
+  background: var(--surface);
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.25s, border-color 0.25s, transform 0.15s;
+}
+
+.place-card:hover {
+  transform: translateY(-2px);
+}
+
+.place-card img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background-color: var(--primary-soft);
+}
+
+.place-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.place-card .price {
+  font-size: 14px;
+  color: var(--primary-hover);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.details-button {
+  margin-top: auto;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 9px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.2s;
+}
+
+.details-button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* ── Login / Add Review forms ── */
+.form-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.form-card {
+  background: var(--surface);
+  padding: 40px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  margin: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow);
+  transition: background-color 0.25s, border-color 0.25s;
+}
+
+.form-card h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.form-card p.subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 26px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  margin-top: 18px;
+}
+
+input, textarea, select.form-input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--surface-soft);
+  color: var(--text);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+input:focus, textarea:focus, select.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+button[type="submit"] {
+  width: 100%;
+  margin-top: 26px;
+  padding: 13px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--primary-hover);
+}
+
+/* ── Place details page ── */
+.place-details-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.place-details {
+  background: var(--surface);
+  margin: 20px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 26px;
+  transition: background-color 0.25s, border-color 0.25s;
+}
+
+.place-details img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 22px;
+  background-color: var(--primary-soft);
+}
+
+.place-details h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+
+.place-info {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 9px;
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.place-info svg {
+  flex-shrink: 0;
+  color: var(--primary-hover);
+}
+
+.place-info strong {
+  color: var(--text);
+}
+
+.amenities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.amenity-tag {
+  background-color: var(--primary-soft);
+  color: var(--primary-hover);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.add-review-button {
+  margin-top: 22px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 11px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s;
+}
+
+.add-review-button:hover {
+  background-color: var(--primary-hover);
+}
+
+.reviews {
+  margin-top: 32px;
+}
+
+.reviews h2 {
+  font-size: 19px;
+  font-weight: 700;
+  margin: 20px;
+  margin-bottom: 14px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-card {
+  background: var(--surface);
+  margin: 20px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  transition: background-color 0.25s, border-color 0.25s;
+}
+
+.review-card .review-user {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.review-card .review-rating {
+  color: var(--primary-hover);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.review-card .review-comment {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 18px;
+  font-size: 12px;
+  color: var(--text-muted);
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  transition: background-color 0.25s, border-color 0.25s;
+}
