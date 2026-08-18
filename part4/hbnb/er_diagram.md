@@ -1,46 +1,54 @@
-#Hbnb Database ER Diagram
+erDiagram
+    USER {
+        string id
+        string first_name
+        string last_name
+        string email
+        string password
+        boolean is_admin
+    }
 
-```erDiagram
- USER{
-     string id
-     string first_name
-     string last_name
-     string email
-     string password
-     boolean is_admin
- }
+    PLACE {
+        string id
+        string title
+        string description
+        float price
+        float latitude
+        float longitude
+        string owner_id
+    }
 
- PLACE {
-     string id
-     string title
-     string desription
-     float price
-     float latitude
-     float longitude
-     string owner_id
- }
+    REVIEW {
+        string id
+        string text
+        int rating
+        string user_id
+        string place_id
+    }
 
-  REVIEW {
-     string id
-     string text
-     int rating
-     string user_id
-     string place_id
- } 
+    AMENITY {
+        string id
+        string name
+    }
 
- AMENITY {
-     string id
-     string name
- }
+    PLACE_AMENITY {
+        string place_id
+        string amenity_id
+    }
 
-  PLACE_AMENITY {
-     string place_id
-     string amenity_id
- }
+    RESERVATION {
+        string id
+        string start_date
+        string end_date
+        float total_price
+        string user_id
+        string place_id
+    }
 
- USER ||--o{ PLACE : owns
- USER ||--o{ REVIEW : writes
- PLACE ||--o{ REVIEW : receives
- PLACE ||--o{ PLACE_AMENITY : has
- AMENITY ||--o{ PLACE_AMENITY : belongs_to
-```
+    USER ||--o{ PLACE : owns
+    USER ||--o{ REVIEW : writes
+    PLACE ||--o{ REVIEW : receives
+    PLACE ||--o{ PLACE_AMENITY : has
+    AMENITY ||--o{ PLACE_AMENITY : belongs_to
+    USER ||--o{ RESERVATION : makes
+    PLACE ||--o{ RESERVATION : has
