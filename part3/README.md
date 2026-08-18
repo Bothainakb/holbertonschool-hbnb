@@ -13,28 +13,22 @@ The system now secures API endpoints using **JWT authentication**, hashes user p
 * Python 3.8 or higher.
 * SQLite3 or MySQL depending on environment configuration.
 
-### Installation Instructions
+### Installation Instructions:
 
-1. Navigate to the project directory:
-
-```bash
-cd hbnb
-```
-
-2. Set up a Python virtual environment (recommended):
+1. Set up a Python virtual environment (recommended):
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-3. Install the required dependencies:
+2. Install the required dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Initialize the database by running the provided SQL scripts:
+3. Initialize the database by running the provided SQL scripts:
 
 ```bash
 sqlite3 instance/development.db < schema.sql
@@ -47,17 +41,10 @@ These scripts create the database schema and populate initial data such as the *
 
 ### Running the Application
 
-From the root directory (`hbnb/`), execute the script to start the local web server:
 
 ```bash
 python3 run.py
 ```
-
-The application will launch, running by default on
-`http://127.0.0.1:8080/`
-
-You can browse the interactive Swagger UI and test the secured endpoints by navigating to
-`http://127.0.0.1:8080/api/v1/`.
 
 ---
 
