@@ -13,13 +13,29 @@
     <a href="index.html" aria-label="HBnB Home">
       <img src="logo.png" alt="HBnB logo" class="logo" onerror="this.style.display='none'">
     </a>
+
     <nav>
       <a href="index.html">Home</a>
+
       <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark/light mode">
-        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg id="icon-sun" class="icon-hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+
+        <svg id="icon-sun" class="icon-hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
       </button>
-      <a href="login.html" class="login-button">Login</a>
+
+      <a href="login.html" id="login-link" class="login-button">Login</a>
     </nav>
   </header>
 
@@ -28,36 +44,16 @@
       <h1>Places to stay</h1>
 
       <div class="filter-bar">
-        <select id="country-filter">
-          <option value="">Filter by country</option>
-          <option value="usa">United States</option>
-          <option value="fr">France</option>
-          <option value="jp">Japan</option>
+        <select id="price-filter">
+          <option value="10">10</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="all">All</option>
         </select>
       </div>
     </div>
 
-    <div class="places-list">
-      <div class="place-card">
-        <img src="images/place1.jpg" alt="Cozy Apartment" onerror="this.style.display='none'">
-        <h2>Cozy Apartment</h2>
-        <p class="price">$100 / night</p>
-        <a href="place.html" class="details-button">View Details</a>
-      </div>
-
-      <div class="place-card">
-        <img src="images/place2.jpg" alt="Luxury Condo" onerror="this.style.display='none'">
-        <h2>Luxury Condo</h2>
-        <p class="price">$200 / night</p>
-        <a href="place.html" class="details-button">View Details</a>
-      </div>
-
-      <div class="place-card">
-        <img src="images/place3.jpg" alt="Beach House" onerror="this.style.display='none'">
-        <h2>Beach House</h2>
-        <p class="price">$150 / night</p>
-        <a href="place.html" class="details-button">View Details</a>
-      </div>
+    <div id="places-list" class="places-list">
     </div>
   </main>
 
@@ -65,6 +61,8 @@
     <p>&copy; 2026 HBnB. All rights reserved.</p>
   </footer>
 
-  <script src="theme.js"></script>
+  <script src="scripts.js"></script>
 </body>
 </html>
+```
+
