@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HBnB - Place Details</title>
+  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header>
+    <a href="index.html" aria-label="HBnB Home">
+      <img src="logo.png" alt="HBnB logo" class="logo"
+           onerror="this.style.display='none'">
+    </a>
+
+    <nav>
+      <a href="index.html">Home</a>
+
+      <button
+        class="theme-toggle"
+        id="theme-toggle"
+        aria-label="Toggle dark mode"
+        title="Toggle dark/light mode">
+        <svg id="icon-moon"
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3
+                   7 7 0 0 0 21 12.79z"/>
+        </svg>
+
+        <svg id="icon-sun"
+             class="icon-hidden"
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+        </svg>
+      </button>
+
+      <a href="login.html" id="login-link" class="login-button">
+        Login
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <div id="place-details">
+      <p>Loading place details...</p>
+    </div>
+
+    <section id="add-review" style="display: none;">
+      <h2>Add a Review</h2>
+
+      <form id="review-form">
+        <label for="review-text">Review:</label>
+        <textarea
+          id="review-text"
+          name="text"
+          required></textarea>
+
+        <label for="rating">Rating:</label>
+        <select id="rating" name="rating" required>
+          <option value="">Select a rating</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+
+        <button type="submit">Submit Review</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 HBnB. All rights reserved.</p>
+  </footer>
+
+  <script src="place.js"></script>
+</body>
+</html>
