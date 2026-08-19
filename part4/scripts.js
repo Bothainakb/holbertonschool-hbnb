@@ -1,4 +1,3 @@
-```javascript
 function getCookie(name) {
     const cookies = document.cookie.split(';');
 
@@ -65,5 +64,3 @@ function displayPlaces(places) {
 
 checkAuthentication();
 fetchPlaces();
-```
-
