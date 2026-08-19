@@ -101,8 +101,9 @@ class HBnBFacade:
         if place and amenity:
             if amenity not in place.amenities:
                 place.amenities.append(amenity)
-                place.save()
+                self.place_repo.update(place_id, {})
             return True
+
         return False
 
     # ==========================================
@@ -135,4 +136,6 @@ class HBnBFacade:
         """Delete review record."""
         return self.review_repo.delete(review_id)
 
-    facade = HBnBFacade()
+
+# Create the facade instance used by the API endpoints.
+facade = HBnBFacade()
