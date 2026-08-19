@@ -48,6 +48,7 @@ function displayPlaces(places) {
         const placeElement = document.createElement('div');
 
         placeElement.className = 'place-card';
+        placeElement.dataset.price = place.price;
 
         placeElement.innerHTML = `
             <h2>${place.title}</h2>
@@ -61,6 +62,29 @@ function displayPlaces(places) {
         placesList.appendChild(placeElement);
     });
 }
+
+function filterPlaces() {
+    const selectedPrice = document.getElementById('price-filter').value;
+    const placeCards = document.querySelectorAll('.place-card');
+
+    placeCards.forEach((placeCard) => {
+        const placePrice = parseFloat(placeCard.dataset.price);
+
+        if (selectedPrice === 'all') {
+            placeCard.style.display = 'block';
+        } else {
+            const maxPrice = parseFloat(selectedPrice);
+
+            if (placePrice <= maxPrice) {
+                placeCard.style.display = 'block';
+            } else {
+                placeCard.style.display = 'none';
+            }
+        }
+    });
+}
+
+document.getElementById('price-filter').addEventListener('change', filterPlaces);
 
 checkAuthentication();
 fetchPlaces();
